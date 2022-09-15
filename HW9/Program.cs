@@ -69,7 +69,7 @@ int? AckermannFunction(int m, int n)
         Console.WriteLine("Unable to calculate Ackermann function, n < 0.");
         return null;
     }
-    else if (m == 3 && n > 14 || m == 4 && n > 1 || m == 5 && n > 0)
+    else if (m == 3 && n > 24 || m == 4 && n > 1 || m == 5 && n > 0)
     {
         Console.WriteLine("Unable to calculate Ackermann function, not enough memory.");
         return null;
@@ -96,10 +96,13 @@ int AckermannFunctionRecursion(int m, int n, int[,] cacheArray)
     if (m > 0 && n > 0)
     {
         if (cacheArray[m, n] == 0)
-            cacheArray[m, n] = AckermannFunctionRecursion(
-                m: m - 1,
-                n: AckermannFunctionRecursion(m, n - 1, cacheArray),
-                cacheArray);
+            if (m == 3 && n > 14)
+                cacheArray[m, n] = Convert.ToInt32(Math.Pow(2, n + 3) - 3);
+            else
+                cacheArray[m, n] = AckermannFunctionRecursion(
+                    m: m - 1,
+                    n: AckermannFunctionRecursion(m, n - 1, cacheArray),
+                    cacheArray);
 
         return cacheArray[m, n];
     }
@@ -121,4 +124,4 @@ int n = Convert.ToInt32(Console.ReadLine());
 
 int? result = AckermannFunction(m, n);
 if (result is not null)
-    Console.WriteLine($"A(m, n) = {result}");
+    Console.WriteLine($"A({m}, {n}) = {result}");
