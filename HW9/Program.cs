@@ -52,7 +52,7 @@ Console.WriteLine(GetSum(m, n));
 // Задача 68: Напишите программу вычисления функции Аккермана с помощью рекурсии.
 // Даны два неотрицательных числа m и n.
 
-int? AckermannFunction(int m, int n)
+ulong? AckermannFunction(int m, int n)
 {
     if (m < 0 && n < 0)
     {
@@ -69,7 +69,11 @@ int? AckermannFunction(int m, int n)
         Console.WriteLine("Unable to calculate Ackermann function, n < 0.");
         return null;
     }
-    else if (m == 3 && n > 24 || m == 4 && n > 1 || m == 5 && n > 0)
+    else if (m == 3 && n > 24 && n < 61)
+    {
+        return Convert.ToUInt64(Math.Pow(2, n + 3)) - Convert.ToUInt64(3);
+    }
+    else if (m == 3 && n > 60 || m == 4 && n > 1 || m == 5 && n > 0)
     {
         Console.WriteLine("Unable to calculate Ackermann function, not enough memory.");
         return null;
@@ -88,7 +92,7 @@ int? AckermannFunction(int m, int n)
 
     int[,] cacheArray = new int[rows, columns];
 
-    return AckermannFunctionRecursion(m, n, cacheArray);
+    return Convert.ToUInt64(AckermannFunctionRecursion(m, n, cacheArray));
 }
 
 int AckermannFunctionRecursion(int m, int n, int[,] cacheArray)
@@ -122,6 +126,6 @@ int m = Convert.ToInt32(Console.ReadLine());
 Console.Write("Input N: ");
 int n = Convert.ToInt32(Console.ReadLine());
 
-int? result = AckermannFunction(m, n);
+ulong? result = AckermannFunction(m, n);
 if (result is not null)
-    Console.WriteLine($"A({m}, {n}) = {result}");
+    Console.WriteLine($"A({m}, {n}) = {result:n0}");
